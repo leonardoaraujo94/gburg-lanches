@@ -3,25 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>G Burg Lanches - Cardápio Digital</title>
+    <title>G Burg's Lanches - Cardápio Digital</title>
     <style>
         :root {
             --primary: #FF8C00; /* Laranja da marca */
-            --bg: #121212;      /* Fundo escuro */
+            --bg: #000000;      /* Fundo preto (combinando com a logo) */
             --card: #1e1e1e;    /* Fundo dos cartões */
             --text: #ffffff;
         }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; }
-        header { background-color: var(--card); padding: 20px; text-align: center; border-bottom: 3px solid var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        h1 { color: var(--primary); margin: 0; text-transform: uppercase; letter-spacing: 2px; font-size: 1.8em; }
-        h2 { border-left: 5px solid var(--primary); padding-left: 10px; margin-top: 40px; color: var(--primary); }
+        
+        /* Ajuste do Cabeçalho para receber a LOGO */
+        header { background-color: #000; padding: 20px 20px 10px 20px; text-align: center; border-bottom: 3px solid var(--primary); box-shadow: 0 4px 15px rgba(255, 140, 0, 0.2); }
+        .logo-img { max-width: 250px; width: 100%; height: auto; display: block; margin: 0 auto; }
+        
+        h2 { border-left: 5px solid var(--primary); padding-left: 10px; margin-top: 40px; color: var(--primary); text-transform: uppercase; }
         .container { max-width: 800px; margin: 0 auto; padding: 20px; }
         
         /* Estilo do Item do Menu */
         .menu-item { background: var(--card); margin-bottom: 20px; border-radius: 12px; overflow: hidden; border: 1px solid #333; display: flex; flex-wrap: wrap; }
         .menu-image { width: 120px; height: 120px; object-fit: cover; }
         .item-content { padding: 15px; flex: 1; min-width: 250px; display: flex; flex-direction: column; justify-content: center;}
-        .item-info h3 { margin: 0 0 5px 0; color: var(--primary); font-size: 1.2em; }
+        .item-info h3 { margin: 0 0 5px 0; color: var(--primary); font-size: 1.2em; font-weight: bold; }
         .item-info p { margin: 0; font-size: 0.9em; color: #ccc; }
         .price-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding: 0 15px 15px 15px; width: 100%; }
         .price { font-weight: bold; font-size: 1.3em; color: white; }
@@ -33,7 +36,7 @@
         .options-container { padding: 10px 15px; background: #252525; width: 100%; border-top: 1px solid #333; }
         .options-title { font-size: 0.9em; color: var(--primary); margin-bottom: 8px; display: block; font-weight: bold;}
         .checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; }
-        .checkbox-label { display: flex; align-items: center; font-size: 0.85em; cursor: pointer; background: #333; padding: 5px 10px; border-radius: 15px;}
+        .checkbox-label { display: flex; align-items: center; font-size: 0.85em; cursor: pointer; background: #333; padding: 5px 10px; border-radius: 15px; border: 1px solid #444; }
         .checkbox-label input { margin-right: 8px; accent-color: var(--primary); }
 
         /* Barra flutuante do carrinho */
@@ -53,8 +56,7 @@
 <body>
 
 <header>
-    <h1>G BURG LANCHES</h1>
-    <p>O melhor sabor da cidade</p>
+    <img src="logo.png" alt="G Burg's Lanches" class="logo-img">
 </header>
 
 <div class="container" id="menu-container">
@@ -70,7 +72,8 @@
 
 <script>
     // --- CONFIGURAÇÃO GERAL ---
-    const SEU_WHATSAPP = "5521999999999"; // Coloque seu número aqui
+    // !!! COLOQUE SEU NÚMERO ABAIXO (DDD + NÚMERO) !!!
+    const SEU_WHATSAPP = "5521999999999"; 
 
     // --- CONFIGURAÇÃO DE BAIRROS E TAXAS ---
     const BAIRROS = [
@@ -259,7 +262,6 @@
         const nomeCliente = prompt("Qual seu nome?");
         if(!nomeCliente) return;
 
-        // Pede o endereço APÓS selecionar o bairro
         const endereco = prompt(`Você escolheu ${bairroSelecionado.nome}.\nAgora digite o NOME DA RUA, NÚMERO e PONTO DE REFERÊNCIA:`);
         if(!endereco) return;
 
@@ -269,7 +271,7 @@
         const obs = prompt("Alguma observação final?");
 
         // 3. Montagem da Mensagem
-        let msg = "*NOVO PEDIDO - G BURG*\n";
+        let msg = "*NOVO PEDIDO - G BURG'S LANCHES*\n";
         msg += "------------------------------\n";
         
         const resumo = {};
