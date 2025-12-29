@@ -6,15 +6,15 @@
     <title>G Burg's Lanches - Cardápio Digital</title>
     <style>
         :root {
-            --primary: #FF8C00; /* Laranja da marca */
-            --bg: #000000;      /* Fundo preto */
-            --card: #1e1e1e;    /* Fundo dos cartões */
+            --primary: #FF8C00;
+            --bg: #000000;
+            --card: #1e1e1e;
             --text: #ffffff;
-            --danger: #ff4444;  /* Cor para remover item */
+            --danger: #ff4444;
+            --input-bg: #333;
         }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding-bottom: 100px; }
         
-        /* HEADER */
         header { background-color: #000; padding: 20px; text-align: center; border-bottom: 3px solid var(--primary); box-shadow: 0 4px 15px rgba(255, 140, 0, 0.2); }
         .logo-img { max-width: 200px; width: 100%; height: auto; display: block; margin: 0 auto; }
         
@@ -33,7 +33,7 @@
         .add-btn { background-color: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 30px; cursor: pointer; font-weight: bold; transition: transform 0.2s; }
         .add-btn:hover { transform: scale(1.05); background-color: #e67e00; }
 
-        /* OPÇÕES (Checkboxes) */
+        /* OPÇÕES */
         .options-container { padding: 10px 15px; background: #252525; width: 100%; border-top: 1px solid #333; }
         .options-title { font-size: 0.9em; color: var(--primary); margin-bottom: 8px; display: block; font-weight: bold; margin-top: 10px;}
         .checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -41,29 +41,35 @@
         .checkbox-label input { margin-right: 8px; accent-color: var(--primary); transform: scale(1.2); }
 
         /* BARRA FLUTUANTE */
-        .cart-bar { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--primary); color: white; padding: 15px; z-index: 100; box-shadow: 0 -4px 20px rgba(0,0,0,0.7); display: none; justify-content: space-between; align-items: center; box-sizing: border-box; }
+        .cart-bar { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--primary); color: white; padding: 15px; z-index: 90; box-shadow: 0 -4px 20px rgba(0,0,0,0.7); display: none; justify-content: space-between; align-items: center; box-sizing: border-box; }
         .cart-bar-info { display: flex; flex-direction: column; }
         .cart-count { font-size: 0.8em; opacity: 0.9; }
         .cart-total { font-size: 1.2em; font-weight: bold; }
         .cart-bar button { background: white; color: var(--primary); border: none; padding: 12px 25px; border-radius: 30px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        /* MODAL DO CARRINHO (NOVO) */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 200; display: none; justify-content: center; align-items: center; }
-        .modal-content { background: #1e1e1e; padding: 25px; border-radius: 15px; width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto; border: 1px solid #FF8C00; box-shadow: 0 0 20px rgba(255, 140, 0, 0.3); }
+        /* ESTILOS DOS MODAIS (CARRINHO E CHECKOUT) */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; display: none; justify-content: center; align-items: center; }
+        .modal-content { background: #1e1e1e; padding: 25px; border-radius: 15px; width: 95%; max-width: 500px; max-height: 90vh; overflow-y: auto; border: 1px solid #FF8C00; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 15px; }
         .modal-title { font-size: 1.4em; color: var(--primary); font-weight: bold; }
+        
+        /* Lista do Carrinho */
         .cart-list { list-style: none; padding: 0; margin: 0; }
         .cart-item { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #333; padding: 15px 0; }
         .cart-item-info { flex: 1; padding-right: 10px; }
-        .cart-item-name { font-weight: bold; font-size: 1.1em; display: block; }
-        .cart-item-details { font-size: 0.85em; color: #aaa; display: block; margin-top: 5px; }
+        .cart-item-name { font-weight: bold; font-size: 1.1em; display: block; color: white;}
+        .cart-item-details { font-size: 0.85em; color: #aaa; display: block; margin-top: 5px; font-style: italic;}
         .cart-item-price { color: var(--primary); font-weight: bold; margin-top: 5px; display: block; }
         .btn-remove { background: transparent; border: 1px solid var(--danger); color: var(--danger); padding: 5px 10px; border-radius: 8px; cursor: pointer; font-size: 0.8em; }
-        .btn-remove:hover { background: var(--danger); color: white; }
+
+        /* Formulário de Checkout */
+        .form-group { margin-bottom: 15px; }
+        .form-label { display: block; margin-bottom: 5px; color: #ccc; font-size: 0.9em; }
+        .form-input, .form-select, .form-textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #444; background: var(--input-bg); color: white; font-family: inherit; box-sizing: border-box; }
+        .form-select { appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FF8C00%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.7-9.3-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right .7em top 50%; background-size: .65em auto; }
         
-        .modal-footer { margin-top: 20px; display: flex; gap: 10px; flex-direction: column; }
-        .btn-close { background: #333; color: white; border: none; padding: 15px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; }
-        .btn-confirm { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.1em; }
+        .btn-confirm { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.1em; margin-top: 10px; }
+        .btn-back { background: #333; color: white; border: none; padding: 15px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
 
         @media (max-width: 600px) {
             .menu-item { flex-direction: column; }
@@ -75,18 +81,17 @@
 <body>
 
 <header>
-    <img src="GBurgs.Logo.png" alt="G Burg's Lanches" class="logo-img" width="150">
+    <img src="logo.png" alt="G Burg's Lanches" class="logo-img">
 </header>
 
-<div class="container" id="menu-container">
-    </div>
+<div class="container" id="menu-container"></div>
 
 <div class="cart-bar" id="cart-bar">
     <div class="cart-bar-info">
         <span class="cart-count" id="cart-count">0 itens</span>
         <span class="cart-total" id="cart-total">R$ 0,00</span>
     </div>
-    <button onclick="abrirModalCarrinho()">Ver Carrinho / Finalizar</button>
+    <button onclick="abrirModalCarrinho()">Ver Carrinho</button>
 </div>
 
 <div class="modal-overlay" id="cart-modal">
@@ -95,23 +100,78 @@
             <span class="modal-title">Seu Carrinho</span>
             <span style="cursor: pointer; font-size: 1.5em;" onclick="fecharModalCarrinho()">&times;</span>
         </div>
-        <ul class="cart-list" id="cart-list">
-            </ul>
+        <ul class="cart-list" id="cart-list"></ul>
         <div style="text-align: right; margin-top: 15px; font-size: 1.3em; font-weight: bold;">
             Total: <span id="modal-total-price" style="color: var(--primary);">R$ 0,00</span>
         </div>
-        <div class="modal-footer">
-            <button class="btn-confirm" onclick="iniciarCheckout()">Concluir Pedido</button>
-            <button class="btn-close" onclick="fecharModalCarrinho()">Continuar Comprando</button>
+        <button class="btn-confirm" onclick="irParaCheckout()">Continuar para Entrega</button>
+        <button class="btn-back" onclick="fecharModalCarrinho()">Voltar ao Cardápio</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="checkout-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="modal-title">Finalizar Pedido</span>
+            <span style="cursor: pointer; font-size: 1.5em;" onclick="fecharCheckout()">&times;</span>
         </div>
+        
+        <div class="form-group">
+            <label class="form-label">Seu Nome:</label>
+            <input type="text" id="cli-nome" class="form-input" placeholder="Digite seu nome">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Bairro de Entrega:</label>
+            <select id="cli-bairro" class="form-select" onchange="atualizarTotalComTaxa()">
+                <option value="">Selecione o Bairro...</option>
+                </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Endereço Completo (Rua, Nº, Ref):</label>
+            <input type="text" id="cli-endereco" class="form-input" placeholder="Ex: Rua A, 10 - Casa amarela">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Forma de Pagamento:</label>
+            <select id="cli-pagamento" class="form-select">
+                <option value="Pix">Pix</option>
+                <option value="Dinheiro">Dinheiro (Levar troco?)</option>
+                <option value="Cartão de Crédito">Cartão de Crédito</option>
+                <option value="Cartão de Débito">Cartão de Débito</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Observações:</label>
+            <textarea id="cli-obs" class="form-textarea" rows="2" placeholder="Ex: Tocar a campainha, tirar cebola..."></textarea>
+        </div>
+
+        <div style="background: #252525; padding: 10px; border-radius: 8px; margin-top: 10px;">
+            <div style="display: flex; justify-content: space-between; color: #aaa;">
+                <span>Subtotal:</span>
+                <span id="checkout-subtotal">R$ 0,00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: #aaa;">
+                <span>Taxa de Entrega:</span>
+                <span id="checkout-taxa">R$ 0,00</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2em; margin-top: 5px; color: var(--primary);">
+                <span>Total Final:</span>
+                <span id="checkout-total">R$ 0,00</span>
+            </div>
+        </div>
+
+        <button class="btn-confirm" onclick="enviarPedidoZap()">Enviar Pedido no WhatsApp</button>
+        <button class="btn-back" onclick="fecharCheckout()">Voltar</button>
     </div>
 </div>
 
 <script>
-    // --- CONFIGURAÇÃO ---
-    const SEU_WHATSAPP = "5521982115645"; // <--- SEU NÚMERO AQUI
+    // --- DADOS ---
+    const SEU_WHATSAPP = "5521999999999"; 
 
-    // --- CONFIGURAÇÃO DE BAIRROS ---
     const BAIRROS = [
         { id: 1, nome: "Parque Alegria", taxa: 3.00 },
         { id: 2, nome: "Chatuba", taxa: 4.00 },
@@ -119,35 +179,13 @@
         { id: 4, nome: "São Sebastião", taxa: 5.00 }
     ];
 
-    // --- CONFIGURAÇÃO DE OPÇÕES ---
-    const MOLHOS_GRATIS = [
-        { nome: "Ketchup", preco: 0 }, { nome: "Mostarda", preco: 0 },
-        { nome: "Maionese da Casa", preco: 0 }, { nome: "Molho Especial", preco: 0 },
-        { nome: "Barbecue", preco: 0 }
-    ];
+    const MOLHOS_GRATIS = [{nome:"Ketchup",preco:0}, {nome:"Mostarda",preco:0}, {nome:"Maionese da Casa",preco:0}, {nome:"Molho Especial",preco:0}, {nome:"Barbecue",preco:0}];
+    const ADICIONAIS_PAGOS = [{nome:"Ovo",preco:2}, {nome:"Presunto",preco:2}, {nome:"Queijo",preco:2}, {nome:"Calabresa",preco:2}, {nome:"Bacon",preco:3}, {nome:"Carne",preco:3}];
+    const SABORES_FRUTAS = [{nome:"Morango",preco:0}, {nome:"Manga",preco:0}, {nome:"Maracujá",preco:0}, {nome:"Graviola",preco:0}, {nome:"Banana",preco:0}, {nome:"Abacate",preco:0}];
+    const ACAI_OPCOES = [{nome:"Granola",preco:0}, {nome:"Leite em pó",preco:0}, {nome:"Paçoca",preco:0}, {nome:"Amendoim",preco:0}, {nome:"Sucrilhos",preco:0}, {nome:"Chocobol",preco:0}, {nome:"Jujuba",preco:0}, {nome:"Leite Condensado",preco:0}];
+    const REFRI_SABORES = [{nome:"Coca-Cola",preco:0}, {nome:"Guaraná",preco:0}, {nome:"Fanta",preco:0}];
 
-    const ADICIONAIS_PAGOS = [
-        { nome: "Ovo", preco: 2.00 }, { nome: "Presunto", preco: 2.00 },
-        { nome: "Queijo", preco: 2.00 }, { nome: "Calabresa", preco: 2.00 },
-        { nome: "Bacon", preco: 3.00 }, { nome: "Carne", preco: 3.00 }
-    ];
-
-    const SABORES_FRUTAS = [
-        { nome: "Morango", preco: 0 }, { nome: "Manga", preco: 0 },
-        { nome: "Maracujá", preco: 0 }, { nome: "Graviola", preco: 0 },
-        { nome: "Banana", preco: 0 }, { nome: "Abacate", preco: 0 }
-    ];
-    
-    const ACAI_OPCOES = [
-        { nome: "Granola", preco: 0 }, { nome: "Leite em pó", preco: 0 }, 
-        { nome: "Paçoca", preco: 0 }, { nome: "Amendoim", preco: 0 }, 
-        { nome: "Sucrilhos", preco: 0 }, { nome: "Chocobol", preco: 0 },
-        { nome: "Jujuba", preco: 0 }, { nome: "Leite Condensado", preco: 0 }
-    ];
-
-    const REFRI_SABORES = [{ nome: "Coca-Cola", preco: 0 }, { nome: "Guaraná", preco: 0 }, { nome: "Fanta", preco: 0 }];
-
-    // --- CARDÁPIO ---
+    // Cardápio completo
     const cardapio = [
         { categoria: "Hambúrgueres Artesanais", itens: [
             { nome: "X-Tudo", desc: "Carne, calabresa, bacon, ovo, presunto, queijo, alface, molhos", preco: 17.00, img: "https://source.unsplash.com/150x150/?burger,bacon" },
@@ -208,222 +246,206 @@
 
     let carrinho = [];
 
-    // --- RENDERIZAR CARDÁPIO ---
-    const container = document.getElementById('menu-container');
-    
-    cardapio.forEach((categoria, catIndex) => {
-        const divCat = document.createElement('div');
-        divCat.innerHTML = `<h2>${categoria.categoria}</h2>`;
-        
-        categoria.itens.forEach((item, itemIndex) => {
-            let itemHTML = `
-                <div class="menu-item">
-                    <img src="${item.img}" alt="${item.nome}" class="menu-image">
-                    <div class="item-content">
-                        <div class="item-info">
-                            <h3>${item.nome}</h3>
-                            <p>${item.desc}</p>
+    // --- INICIALIZAÇÃO ---
+    window.onload = function() {
+        renderizarCardapio();
+        preencherBairros();
+    };
+
+    function renderizarCardapio() {
+        const container = document.getElementById('menu-container');
+        cardapio.forEach((categoria, catIndex) => {
+            const divCat = document.createElement('div');
+            divCat.innerHTML = `<h2>${categoria.categoria}</h2>`;
+            categoria.itens.forEach((item, itemIndex) => {
+                let opcoesHTML = "";
+                if (categoria.categoria.includes("Hambúrgueres") || categoria.categoria.includes("Clássicos")) {
+                    opcoesHTML += gerarOpcoesHTML(MOLHOS_GRATIS, "Molhos Grátis:");
+                    opcoesHTML += gerarOpcoesHTML(ADICIONAIS_PAGOS, "Turbine seu Lanche (Adicionais):");
+                } else if (categoria.categoria.includes("Açaí")) {
+                    opcoesHTML = gerarOpcoesHTML(ACAI_OPCOES, "Complementos Grátis:");
+                } else if (categoria.categoria.includes("Vitaminas") || categoria.categoria.includes("Sucos")) {
+                    opcoesHTML = gerarOpcoesHTML(SABORES_FRUTAS, "Selecione o Sabor:");
+                } else if (categoria.categoria.includes("Bebidas") && item.nome.includes("Refri")) {
+                    opcoesHTML = gerarOpcoesHTML(REFRI_SABORES, "Escolha o sabor:");
+                }
+
+                divCat.innerHTML += `
+                    <div class="menu-item">
+                        <img src="${item.img}" alt="${item.nome}" class="menu-image">
+                        <div class="item-content">
+                            <div class="item-info">
+                                <h3>${item.nome}</h3>
+                                <p>${item.desc}</p>
+                            </div>
+                            ${opcoesHTML}
+                            <div class="price-actions">
+                                <span class="price">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+                                <button class="add-btn" onclick="adicionarAoCarrinho(this, '${item.nome}', ${item.preco})">Adicionar</button>
+                            </div>
                         </div>
                     </div>
-            `;
-
-            let opcoesHTML = "";
-            if (categoria.categoria.includes("Hambúrgueres") || categoria.categoria.includes("Clássicos")) {
-                opcoesHTML += gerarOpcoesHTML(MOLHOS_GRATIS, "Molhos Grátis:", catIndex, itemIndex);
-                opcoesHTML += gerarOpcoesHTML(ADICIONAIS_PAGOS, "Turbine seu Lanche (Adicionais):", catIndex, itemIndex);
-            } 
-            else if (categoria.categoria.includes("Açaí")) {
-                opcoesHTML = gerarOpcoesHTML(ACAI_OPCOES, "Complementos Grátis:", catIndex, itemIndex);
-            } 
-            else if (categoria.categoria.includes("Vitaminas") || categoria.categoria.includes("Sucos")) {
-                opcoesHTML = gerarOpcoesHTML(SABORES_FRUTAS, "Selecione o Sabor:", catIndex, itemIndex);
-            }
-            else if (categoria.categoria.includes("Bebidas") && item.nome.includes("Refri")) {
-                opcoesHTML = gerarOpcoesHTML(REFRI_SABORES, "Escolha o sabor:", catIndex, itemIndex);
-            }
-
-            itemHTML += `
-                    ${opcoesHTML}
-                    <div class="price-actions">
-                        <span class="price">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
-                        <button class="add-btn" onclick="adicionarAoCarrinho(this, '${item.nome}', ${item.preco})">Adicionar</button>
-                    </div>
-                </div>
-            `;
-            
-            divCat.innerHTML += itemHTML;
+                `;
+            });
+            container.appendChild(divCat);
         });
-        container.appendChild(divCat);
-    });
+    }
 
-    function gerarOpcoesHTML(listaOpcoes, titulo, cIdx, iIdx) {
+    function gerarOpcoesHTML(lista, titulo) {
         let html = `<div class="options-container"><span class="options-title">${titulo}</span><div class="checkbox-group">`;
-        listaOpcoes.forEach((op) => {
+        lista.forEach(op => {
             let textoPreco = op.preco > 0 ? ` (+ R$ ${op.preco.toFixed(2)})` : "";
-            html += `
-                <label class="checkbox-label">
-                    <input type="checkbox" value="${op.nome}" data-preco="${op.preco}"> 
-                    ${op.nome}${textoPreco}
-                </label>
-            `;
+            html += `<label class="checkbox-label"><input type="checkbox" value="${op.nome}" data-preco="${op.preco}"> ${op.nome}${textoPreco}</label>`;
         });
         html += `</div></div>`;
         return html;
     }
 
-    function adicionarAoCarrinho(btnElement, nomeBase, precoBase) {
-        const itemContainer = btnElement.closest('.menu-item');
-        const checkboxes = itemContainer.querySelectorAll('input[type="checkbox"]:checked');
-        
-        let nomeFinal = nomeBase;
-        let opcoesSelecionadas = [];
-        let somaAdicionais = 0;
+    // --- CARRINHO ---
+    function adicionarAoCarrinho(btn, nome, precoBase) {
+        const itemDiv = btn.closest('.menu-item');
+        const checks = itemDiv.querySelectorAll('input:checked');
+        let opcoes = [];
+        let precoExtra = 0;
 
-        checkboxes.forEach(cb => {
-            let precoExtra = parseFloat(cb.getAttribute('data-preco'));
-            somaAdicionais += precoExtra;
-            opcoesSelecionadas.push(cb.value);
-            cb.checked = false; // Limpa seleção
+        checks.forEach(c => {
+            opcoes.push(c.value);
+            precoExtra += parseFloat(c.getAttribute('data-preco'));
+            c.checked = false;
         });
 
-        if (opcoesSelecionadas.length > 0) {
-            nomeFinal += ` (${opcoesSelecionadas.join(', ')})`;
-        }
-        
-        let precoFinal = precoBase + somaAdicionais;
-
-        // Adiciona ao carrinho com ID único para facilitar remoção (usando timestamp)
-        carrinho.push({ 
-            id: Date.now(), 
-            nome: nomeFinal, 
-            preco: precoFinal 
+        carrinho.push({
+            id: Date.now(),
+            nome: nome,
+            precoBase: precoBase,
+            precoFinal: precoBase + precoExtra,
+            opcoes: opcoes
         });
 
-        atualizarBarraCarrinho();
+        atualizarBarra();
         
-        // Feedback visual
-        const textoOriginal = btnElement.innerText;
-        btnElement.innerText = "Adicionado!";
-        btnElement.style.backgroundColor = "#4CAF50";
-        setTimeout(() => {
-            btnElement.innerText = "Adicionar";
-            btnElement.style.backgroundColor = "";
-        }, 1000);
+        const txt = btn.innerText;
+        btn.innerText = "Adicionado!";
+        btn.style.background = "#4CAF50";
+        setTimeout(() => { btn.innerText = txt; btn.style.background = ""; }, 1000);
     }
 
-    function atualizarBarraCarrinho() {
-        const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
-        const count = carrinho.length;
-        
+    function atualizarBarra() {
+        const total = carrinho.reduce((acc, item) => acc + item.precoFinal, 0);
+        document.getElementById('cart-count').innerText = `${carrinho.length} itens`;
         document.getElementById('cart-total').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
-        document.getElementById('cart-count').innerText = `${count} item(ns)`;
-        
-        const bar = document.getElementById('cart-bar');
-        if (count > 0) {
-            bar.style.display = 'flex';
-        } else {
-            bar.style.display = 'none';
-        }
+        document.getElementById('cart-bar').style.display = carrinho.length > 0 ? 'flex' : 'none';
     }
 
-    // --- FUNÇÕES DO MODAL (NOVO) ---
+    // --- MODAL CARRINHO ---
     function abrirModalCarrinho() {
-        const modal = document.getElementById('cart-modal');
         const lista = document.getElementById('cart-list');
-        const totalEl = document.getElementById('modal-total-price');
-        
-        lista.innerHTML = ''; // Limpa lista atual
+        lista.innerHTML = '';
+        let total = 0;
 
-        carrinho.forEach((item, index) => {
-            const li = document.createElement('li');
-            li.className = 'cart-item';
-            li.innerHTML = `
-                <div class="cart-item-info">
-                    <span class="cart-item-name">${item.nome.split('(')[0]}</span>
-                    <span class="cart-item-details">${item.nome.includes('(') ? '(' + item.nome.split('(')[1] : ''}</span>
-                    <span class="cart-item-price">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
-                </div>
-                <button class="btn-remove" onclick="removerItem(${index})">❌ Remover</button>
+        carrinho.forEach((item, idx) => {
+            total += item.precoFinal;
+            // Formata as opções para exibir bonitinho no modal
+            let descOpcoes = item.opcoes.length > 0 ? `<br><small>+ ${item.opcoes.join(', ')}</small>` : '';
+            
+            lista.innerHTML += `
+                <li class="cart-item">
+                    <div class="cart-item-info">
+                        <span class="cart-item-name">${item.nome}</span>
+                        <span class="cart-item-details">${descOpcoes}</span>
+                        <span class="cart-item-price">R$ ${item.precoFinal.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <button class="btn-remove" onclick="removerItem(${idx})">❌</button>
+                </li>
             `;
-            lista.appendChild(li);
         });
 
-        const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
-        totalEl.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
-        
-        modal.style.display = 'flex';
+        document.getElementById('modal-total-price').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        document.getElementById('cart-modal').style.display = 'flex';
+    }
+
+    function removerItem(idx) {
+        carrinho.splice(idx, 1);
+        atualizarBarra();
+        if (carrinho.length === 0) fecharModalCarrinho();
+        else abrirModalCarrinho();
     }
 
     function fecharModalCarrinho() {
         document.getElementById('cart-modal').style.display = 'none';
     }
 
-    function removerItem(index) {
-        carrinho.splice(index, 1); // Remove o item da lista
-        atualizarBarraCarrinho(); // Atualiza barra de baixo
-        abrirModalCarrinho(); // Re-renderiza o modal (se ficar vazio, fecha)
-        
-        if (carrinho.length === 0) {
-            fecharModalCarrinho();
-        }
+    // --- CHECKOUT ---
+    function preencherBairros() {
+        const select = document.getElementById('cli-bairro');
+        BAIRROS.forEach(b => {
+            select.innerHTML += `<option value="${b.id}">${b.nome} (+ R$ ${b.taxa.toFixed(2)})</option>`;
+        });
     }
 
-    // --- CHECKOUT FINAL ---
-    function iniciarCheckout() {
-        fecharModalCarrinho(); // Fecha o modal para mostrar os prompts
+    function irParaCheckout() {
+        fecharModalCarrinho();
+        document.getElementById('checkout-modal').style.display = 'flex';
+        atualizarTotalComTaxa();
+    }
 
-        if(carrinho.length === 0) return;
+    function fecharCheckout() {
+        document.getElementById('checkout-modal').style.display = 'none';
+        abrirModalCarrinho(); // Volta pro carrinho
+    }
 
-        // 1. Seleção do Bairro
-        let textoBairros = "📍 SELECIONE SEU BAIRRO (Digite o número):\n\n";
-        BAIRROS.forEach(b => {
-            textoBairros += `${b.id}. ${b.nome} (+ R$ ${b.taxa.toFixed(2)})\n`;
-        });
+    function atualizarTotalComTaxa() {
+        const subtotal = carrinho.reduce((acc, item) => acc + item.precoFinal, 0);
+        const bairroId = document.getElementById('cli-bairro').value;
+        const bairro = BAIRROS.find(b => b.id == bairroId);
+        const taxa = bairro ? bairro.taxa : 0;
 
-        let idBairro = prompt(textoBairros);
-        const bairroSelecionado = BAIRROS.find(b => b.id == idBairro);
-        
-        if (!bairroSelecionado) {
-            alert("Bairro inválido! Digite o número correspondente.");
+        document.getElementById('checkout-subtotal').innerText = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+        document.getElementById('checkout-taxa').innerText = `R$ ${taxa.toFixed(2).replace('.', ',')}`;
+        document.getElementById('checkout-total').innerText = `R$ ${(subtotal + taxa).toFixed(2).replace('.', ',')}`;
+    }
+
+    function enviarPedidoZap() {
+        const nome = document.getElementById('cli-nome').value;
+        const bairroId = document.getElementById('cli-bairro').value;
+        const endereco = document.getElementById('cli-endereco').value;
+        const pgto = document.getElementById('cli-pagamento').value;
+        const obs = document.getElementById('cli-obs').value;
+
+        if (!nome || !bairroId || !endereco) {
+            alert("Por favor, preencha nome, bairro e endereço.");
             return;
         }
 
-        // 2. Dados
-        const nomeCliente = prompt("Qual seu nome?");
-        if(!nomeCliente) return;
+        const bairro = BAIRROS.find(b => b.id == bairroId);
+        const subtotal = carrinho.reduce((acc, item) => acc + item.precoFinal, 0);
+        const total = subtotal + bairro.taxa;
 
-        const endereco = prompt(`Você escolheu ${bairroSelecionado.nome}.\nDigite RUA, NÚMERO e REFERÊNCIA:`);
-        if(!endereco) return;
-
-        const pgto = prompt("Forma de pagamento? (Pix, Cartão, Dinheiro - Precisa de troco?)");
-        if(!pgto) return;
+        // MONTAGEM DA MENSAGEM (COM QUEBRA DE LINHA PARA OPÇÕES)
+        let msg = `*NOVO PEDIDO - G BURG'S*\n------------------------------\n`;
         
-        const obs = prompt("Alguma observação final?");
+        carrinho.forEach(item => {
+            msg += `▪️ *${item.nome}* (R$ ${item.precoFinal.toFixed(2)})\n`;
+            if (item.opcoes.length > 0) {
+                // Aqui cria as linhas separadas para cada molho/adicional
+                item.opcoes.forEach(op => {
+                    msg += `   + ${op}\n`;
+                });
+            }
+            msg += `\n`; // Linha em branco entre itens
+        });
 
-        // 3. Montar msg
-        let msg = "*NOVO PEDIDO - G BURG'S*\n";
-        msg += "------------------------------\n";
-        
-        const resumo = {};
-        carrinho.forEach(item => resumo[item.nome] = (resumo[item.nome] || 0) + 1);
-        const subtotal = carrinho.reduce((sum, item) => sum + item.preco, 0);
+        msg += `------------------------------\n`;
+        msg += `Subtotal: R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
+        msg += `Entrega (${bairro.nome}): R$ ${bairro.taxa.toFixed(2).replace('.', ',')}\n`;
+        msg += `*TOTAL FINAL: R$ ${total.toFixed(2).replace('.', ',')}*\n`;
+        msg += `------------------------------\n`;
+        msg += `👤 *Cliente:* ${nome}\n`;
+        msg += `📍 *Endereço:* ${endereco}\n`;
+        msg += `🗺️ *Bairro:* ${bairro.nome}\n`;
+        msg += `💳 *Pagamento:* ${pgto}\n`;
+        if (obs) msg += `📝 *Obs:* ${obs}`;
 
-        for (const [nome, qtd] of Object.entries(resumo)) {
-            msg += `▪️ ${qtd}x ${nome}\n`;
-        }
-
-        const totalFinal = subtotal + bairroSelecionado.taxa;
-
-        msg += "------------------------------\n";
-        msg += `Itens: R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
-        msg += `Entrega (${bairroSelecionado.nome}): R$ ${bairroSelecionado.taxa.toFixed(2).replace('.', ',')}\n`;
-        msg += `*TOTAL: R$ ${totalFinal.toFixed(2).replace('.', ',')}*\n`;
-        msg += "------------------------------\n";
-        msg += `👤 ${nomeCliente}\n`;
-        msg += `📍 ${endereco} - ${bairroSelecionado.nome}\n`;
-        msg += `💳 ${pgto}\n`;
-        if(obs) msg += `📝 ${obs}\n`;
-        
         const url = `https://wa.me/${SEU_WHATSAPP}?text=${encodeURIComponent(msg)}`;
         window.open(url, '_blank');
     }
