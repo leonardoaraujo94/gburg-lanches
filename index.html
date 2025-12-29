@@ -65,56 +65,82 @@
         <span class="cart-count" id="cart-count">0 itens</span>
         <span class="cart-total" id="cart-total">R$ 0,00</span>
     </div>
-    <button onclick="finalizarPedido()">Concluir Pedido via WhatsApp</button>
+    <button onclick="finalizarPedido()">Concluir Pedido</button>
 </div>
 
 <script>
-    // --- CONFIGURAÇÃO ---
-    // SUBSTITUA PELO SEU NÚMERO REAL
-    const SEU_WHATSAPP = "5521999999999"; 
+    // --- CONFIGURAÇÃO GERAL ---
+    const SEU_WHATSAPP = "5521999999999"; // Coloque seu número aqui
+
+    // --- CONFIGURAÇÃO DE BAIRROS E TAXAS ---
+    const BAIRROS = [
+        { id: 1, nome: "Parque Alegria", taxa: 3.00 },
+        { id: 2, nome: "Chatuba", taxa: 4.00 },
+        { id: 3, nome: "Quinta do Caju", taxa: 5.00 },
+        { id: 4, nome: "São Sebastião", taxa: 5.00 }
+    ];
 
     // --- LISTAS DE OPÇÕES ---
     const MOLHOS_OPCOES = ["Ketchup", "Mostarda", "Maionese da Casa", "Molho Especial", "Barbecue"];
-    const ACAI_OPCOES = ["Granola", "Leite em pó", "Paçoca", "Amendoim", "Sucrilhos", "Chocobol", "Jujuba", "Gran. Colorido", "Gran. Chocolate", "Calda Morango", "Calda Chocolate", "Leite Condensado"];
-    
-    // --- DADOS DO CARDÁPIO COM LINKS DE IMAGENS GENÉRICAS ---
-    // IMPORTANTE: Substitua os links 'https://source.unsplash.com/...' pelas suas próprias imagens hospedadas.
+    const ACAI_OPCOES = ["Granola", "Leite em pó", "Paçoca", "Amendoim", "Sucrilhos", "Chocobol", "Jujuba", "Gran. Colorido", "Calda Morango", "Calda Chocolate", "Leite Condensado"];
+    const REFRI_SABORES = ["Coca-Cola", "Coca Zero", "Guaraná", "Guaraná Zero", "Fanta Laranja", "Fanta Uva", "Sprite"];
+
+    // --- CARDÁPIO COMPLETO ---
     const cardapio = [
         { categoria: "Hambúrgueres Artesanais", itens: [
             { nome: "X-Tudo", desc: "Carne, calabresa, bacon, ovo, presunto, queijo, alface, molhos", preco: 17.00, img: "https://source.unsplash.com/150x150/?burger,bacon" },
             { nome: "X-Picanha", desc: "Carne de picanha, calabresa, bacon, ovo, presunto, queijo, alface", preco: 16.00, img: "https://source.unsplash.com/150x150/?burger,meat" },
+            { nome: "X-Bacon de Picanha", desc: "Carne de picanha, bacon, queijo, alface", preco: 18.00, img: "https://source.unsplash.com/150x150/?burger,bbq" },
+            { nome: "X-Tudo de Frango", desc: "Frango, calabresa, bacon, ovo, presunto, queijo, alface", preco: 15.00, img: "https://source.unsplash.com/150x150/?chickenburger" },
+            { nome: "X-Bacon de Frango", desc: "Frango, bacon, queijo, alface", preco: 14.00, img: "https://source.unsplash.com/150x150/?chicken,sandwich" },
             { nome: "X-Bacon", desc: "Carne, bacon, queijo, alface", preco: 14.00, img: "https://source.unsplash.com/150x150/?burger,cheese" },
             { nome: "X-Duplo", desc: "2 Carnes, 2 ovos, 2 presuntos, 2 queijos, alface", preco: 22.00, img: "https://source.unsplash.com/150x150/?doubleburger" },
             { nome: "Duplo Cheddar", desc: "2 Carnes, alface, 4 fatias de cheddar, bacon", preco: 20.00, img: "https://source.unsplash.com/150x150/?cheeseburger,cheddar" },
         ]},
         { categoria: "Clássicos & Simples", itens: [
+             { nome: "X-Calabresa", desc: "Carne, calabresa, presunto, queijo", preco: 12.00, img: "https://source.unsplash.com/150x150/?burger" },
              { nome: "X-Burguer", desc: "Carne, ovo, 2 queijos, calabresa, alface", preco: 11.00, img: "https://source.unsplash.com/150x150/?hamburger" },
+             { nome: "X-Egg", desc: "Carne, presunto, queijo, ovo, alface", preco: 10.00, img: "https://source.unsplash.com/150x150/?eggburger" },
              { nome: "Hamb. de Queijo", desc: "Carne, queijo, alface, batata palha", preco: 10.00, img: "https://source.unsplash.com/150x150/?simpleburger" },
+             { nome: "Hamb. Queijo c/ Presunto", desc: "Carne, queijo, presunto, alface", preco: 11.00, img: "https://source.unsplash.com/150x150/?cheeseburger" },
+             { nome: "Hambúrguer de Ovo", desc: "Carne, ovo, alface, batata palha", preco: 9.00, img: "https://source.unsplash.com/150x150/?burger,egg" },
              { nome: "Misto Quente", desc: "Pão de forma, queijo e presunto", preco: 8.00, img: "https://source.unsplash.com/150x150/?sandwich,cheese" },
+             { nome: "Mistão", desc: "3 pães, 2 queijos e 2 presuntos", preco: 10.00, img: "https://source.unsplash.com/150x150/?sandwich,ham" },
+             { nome: "Queijão", desc: "3 pães e 4 queijos", preco: 5.00, img: "https://source.unsplash.com/150x150/?grilledcheese" }
         ]},
         { categoria: "Hot Dog", itens: [
             { nome: "Hot-Dog Salsicha", desc: "Completo com Salsicha", preco: 12.00, img: "https://source.unsplash.com/150x150/?hotdog" },
             { nome: "Hot-Dog Linguiça", desc: "Completo com Linguiça", preco: 13.00, img: "https://source.unsplash.com/150x150/?sausage,hotdog" }
         ]},
         { categoria: "Porções", itens: [
-            { nome: "Batata Frita G", desc: "Grande, sequinha e crocante", preco: 15.00, img: "https://source.unsplash.com/150x150/?frenchfries" },
-            { nome: "Anel de Cebola (12un)", desc: "Onion Rings crocantes", preco: 10.00, img: "https://source.unsplash.com/150x150/?onionrings" },
+            { nome: "Batata Frita P", desc: "Pequena", preco: 6.00, img: "https://source.unsplash.com/150x150/?frenchfries" },
+            { nome: "Batata Frita M", desc: "Média", preco: 10.00, img: "https://source.unsplash.com/150x150/?fries" },
+            { nome: "Batata Frita G", desc: "Grande", preco: 15.00, img: "https://source.unsplash.com/150x150/?chips,fries" },
+            { nome: "Anel de Cebola (6un)", desc: "Pequena", preco: 5.00, img: "https://source.unsplash.com/150x150/?onionrings" },
+            { nome: "Anel de Cebola (12un)", desc: "Grande", preco: 10.00, img: "https://source.unsplash.com/150x150/?friedonion" },
             { nome: "Batata Maluca", desc: "Completa c/ bacon, calabresa, carne, cheddar", preco: 35.00, img: "https://source.unsplash.com/150x150/?fries,cheese,bacon" }
         ]},
-        { categoria: "Açaí (Selecione os grátis abaixo)", itens: [
+        { categoria: "Açaí (Selecione os grátis)", itens: [
             { nome: "Açaí 750ml", desc: "Copo Gigante", preco: 20.00, img: "https://source.unsplash.com/150x150/?acai,bowl" },
             { nome: "Açaí 500ml", desc: "Copo Grande", preco: 16.00, img: "https://source.unsplash.com/150x150/?acai" },
-            { nome: "Açaí 300ml", desc: "Copo Padrão", preco: 10.00, img: "https://source.unsplash.com/150x150/?acai,cup" }
+            { nome: "Açaí 400ml", desc: "Copo Médio", preco: 14.00, img: "https://source.unsplash.com/150x150/?acai,cup" },
+            { nome: "Açaí 300ml", desc: "Copo Padrão", preco: 10.00, img: "https://source.unsplash.com/150x150/?acai,fruit" },
+            { nome: "Açaí 200ml", desc: "Copo Pequeno", preco: 8.00, img: "https://source.unsplash.com/150x150/?icecream" },
+            { nome: "Açaí 150ml", desc: "Copo Mini", preco: 6.00, img: "https://source.unsplash.com/150x150/?dessert" }
         ]},
-        { categoria: "Bebidas", itens: [
-            { nome: "Suco Natural 500ml", desc: "Sabores: Morango, Manga, Maracujá", preco: 13.00, img: "https://source.unsplash.com/150x150/?juice,fruit" },
-            { nome: "Vitamina 500ml", desc: "Com leite. Sabores diversos.", preco: 14.00, img: "https://source.unsplash.com/150x150/?smoothie" }
+        { categoria: "Bebidas (Refrigerantes)", itens: [
+            { nome: "Refri Lata 350ml", desc: "Escolha o sabor", preco: 6.00, img: "https://source.unsplash.com/150x150/?soda,can" },
+            { nome: "Refri 600ml", desc: "Escolha o sabor", preco: 8.00, img: "https://source.unsplash.com/150x150/?soda,bottle" },
+            { nome: "Refri 1,5 Litros", desc: "Escolha o sabor", preco: 11.00, img: "https://source.unsplash.com/150x150/?coke,bottle" },
+            { nome: "Refri 2 Litros", desc: "Escolha o sabor", preco: 14.00, img: "https://source.unsplash.com/150x150/?soda,party" },
+            { nome: "Suco Natural 500ml", desc: "Polpa/Fruta", preco: 13.00, img: "https://source.unsplash.com/150x150/?juice" },
+            { nome: "Vitamina 500ml", desc: "Com leite", preco: 14.00, img: "https://source.unsplash.com/150x150/?milkshake" }
         ]}
     ];
 
     let carrinho = [];
 
-    // --- FUNÇÃO PRINCIPAL DE RENDERIZAÇÃO ---
+    // --- RENDERIZAÇÃO ---
     const container = document.getElementById('menu-container');
     
     cardapio.forEach((categoria, catIndex) => {
@@ -122,9 +148,8 @@
         divCat.innerHTML = `<h2>${categoria.categoria}</h2>`;
         
         categoria.itens.forEach((item, itemIndex) => {
-            // Gera o HTML base do item
             let itemHTML = `
-                <div class="menu-item" id="item-${catIndex}-${itemIndex}">
+                <div class="menu-item">
                     <img src="${item.img}" alt="${item.nome}" class="menu-image">
                     <div class="item-content">
                         <div class="item-info">
@@ -134,15 +159,15 @@
                     </div>
             `;
 
-            // Lógica para adicionar checkboxes dependendo da categoria
             let opcoesHTML = "";
             if (categoria.categoria.includes("Hambúrgueres") || categoria.categoria.includes("Clássicos")) {
-                opcoesHTML = gerarOpcoesHTML(MOLHOS_OPCOES, "Molhos/Adicionais (Opcional):", catIndex, itemIndex);
+                opcoesHTML = gerarOpcoesHTML(MOLHOS_OPCOES, "Molhos Opcionais:", catIndex, itemIndex);
             } else if (categoria.categoria.includes("Açaí")) {
-                opcoesHTML = gerarOpcoesHTML(ACAI_OPCOES, "Escolha os Complementos Grátis:", catIndex, itemIndex);
+                opcoesHTML = gerarOpcoesHTML(ACAI_OPCOES, "Complementos Grátis:", catIndex, itemIndex);
+            } else if (categoria.categoria.includes("Bebidas") && item.nome.includes("Refri")) {
+                opcoesHTML = gerarOpcoesHTML(REFRI_SABORES, "Escolha o sabor:", catIndex, itemIndex);
             }
 
-            // Fecha o HTML do item com preços e botão
             itemHTML += `
                     ${opcoesHTML}
                     <div class="price-actions">
@@ -157,13 +182,12 @@
         container.appendChild(divCat);
     });
 
-    // Função auxiliar para gerar o HTML dos checkboxes
     function gerarOpcoesHTML(listaOpcoes, titulo, cIdx, iIdx) {
         let html = `<div class="options-container"><span class="options-title">${titulo}</span><div class="checkbox-group">`;
-        listaOpcoes.forEach((op, opIdx) => {
+        listaOpcoes.forEach((op) => {
             html += `
                 <label class="checkbox-label">
-                    <input type="checkbox" value="${op}" name="opt-${cIdx}-${iIdx}"> ${op}
+                    <input type="checkbox" value="${op}"> ${op}
                 </label>
             `;
         });
@@ -171,9 +195,7 @@
         return html;
     }
 
-    // --- LÓGICA DO CARRINHO ---
     function adicionarAoCarrinho(btnElement, nomeBase, preco) {
-        // Encontra o container pai do botão clicado para buscar só os checkboxes dele
         const itemContainer = btnElement.closest('.menu-item');
         const checkboxes = itemContainer.querySelectorAll('input[type="checkbox"]:checked');
         
@@ -182,7 +204,7 @@
 
         checkboxes.forEach(cb => {
             opcoesSelecionadas.push(cb.value);
-            cb.checked = false; // Desmarca após adicionar
+            cb.checked = false; 
         });
 
         if (opcoesSelecionadas.length > 0) {
@@ -192,7 +214,6 @@
         carrinho.push({ nome: nomeFinal, preco: preco });
         atualizarBarraCarrinho();
         
-        // Feedback visual rápido no botão
         const textoOriginal = btnElement.innerText;
         btnElement.innerText = "Adicionado!";
         btnElement.style.backgroundColor = "#4CAF50";
@@ -218,42 +239,59 @@
     function finalizarPedido() {
         if(carrinho.length === 0) return;
 
-        let msg = "*NOVO PEDIDO PELO SITE - G BURG*\n\n";
+        // 1. Seleção do Bairro
+        let textoBairros = "📍 SELECIONE SEU BAIRRO (Digite o número):\n\n";
+        BAIRROS.forEach(b => {
+            textoBairros += `${b.id}. ${b.nome} (+ R$ ${b.taxa.toFixed(2)})\n`;
+        });
+
+        let idBairro = prompt(textoBairros);
+        
+        // Verifica se o cliente digitou algo válido
+        const bairroSelecionado = BAIRROS.find(b => b.id == idBairro);
+        
+        if (!bairroSelecionado) {
+            alert("Bairro inválido! Por favor, digite o número correspondente (1, 2, 3 ou 4).");
+            return;
+        }
+
+        // 2. Coleta de dados restantes
+        const nomeCliente = prompt("Qual seu nome?");
+        if(!nomeCliente) return;
+
+        // Pede o endereço APÓS selecionar o bairro
+        const endereco = prompt(`Você escolheu ${bairroSelecionado.nome}.\nAgora digite o NOME DA RUA, NÚMERO e PONTO DE REFERÊNCIA:`);
+        if(!endereco) return;
+
+        const pgto = prompt("Forma de pagamento? (Pix, Cartão, Dinheiro - Precisa de troco?)");
+        if(!pgto) return;
+        
+        const obs = prompt("Alguma observação final?");
+
+        // 3. Montagem da Mensagem
+        let msg = "*NOVO PEDIDO - G BURG*\n";
         msg += "------------------------------\n";
         
-        // Agrupa itens idênticos (incluindo as opções selecionadas)
         const resumo = {};
-        carrinho.forEach(item => {
-            resumo[item.nome] = (resumo[item.nome] || 0) + 1;
-        });
+        carrinho.forEach(item => resumo[item.nome] = (resumo[item.nome] || 0) + 1);
 
         for (const [nome, qtd] of Object.entries(resumo)) {
             msg += `▪️ ${qtd}x ${nome}\n`;
         }
 
-        const total = carrinho.reduce((sum, item) => sum + item.preco, 0);
+        const subtotal = carrinho.reduce((sum, item) => sum + item.preco, 0);
+        const totalFinal = subtotal + bairroSelecionado.taxa;
+
         msg += "------------------------------\n";
-        msg += `*Valor Total dos Itens: R$ ${total.toFixed(2).replace('.', ',')}*\n`;
-        msg += "(Taxa de entrega a calcular)\n";
-        msg += "\n*DADOS PARA ENTREGA:*\n";
-        
-        const nomeCliente = prompt("Para finalizar, qual seu nome?");
-        if(!nomeCliente) return; // Se cancelar, para tudo.
-
-        const endereco = prompt("Qual seu endereço completo (Rua, Número, Bairro e Ponto de Referência)?");
-        if(!endereco) return;
-
-        const pgto = prompt("Qual a forma de pagamento? (Ex: Pix, Cartão na entrega, Dinheiro - precisa de troco?)");
-        if(!pgto) return;
-        
-        const obs = prompt("Alguma observação final no pedido?");
-
+        msg += `Valor Itens: R$ ${subtotal.toFixed(2).replace('.', ',')}\n`;
+        msg += `Taxa Entrega (${bairroSelecionado.nome}): R$ ${bairroSelecionado.taxa.toFixed(2).replace('.', ',')}\n`;
+        msg += `*TOTAL FINAL: R$ ${totalFinal.toFixed(2).replace('.', ',')}*\n`;
+        msg += "------------------------------\n";
         msg += `👤 Cliente: ${nomeCliente}\n`;
-        msg += `📍 Endereço: ${endereco}\n`;
+        msg += `📍 Endereço: ${endereco} - ${bairroSelecionado.nome}\n`;
         msg += `💳 Pagamento: ${pgto}\n`;
         if(obs) msg += `📝 Obs: ${obs}\n`;
         
-        // Codifica e abre o WhatsApp
         const url = `https://wa.me/${SEU_WHATSAPP}?text=${encodeURIComponent(msg)}`;
         window.open(url, '_blank');
     }
