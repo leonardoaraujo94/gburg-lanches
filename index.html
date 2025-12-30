@@ -18,8 +18,31 @@
         header { background-color: #000; padding: 20px; text-align: center; border-bottom: 3px solid var(--primary); box-shadow: 0 4px 15px rgba(255, 140, 0, 0.2); }
         .logo-img { max-width: 200px; width: 100%; height: auto; display: block; margin: 0 auto; }
         
-        h2 { border-left: 5px solid var(--primary); padding-left: 10px; margin-top: 40px; color: var(--primary); text-transform: uppercase; }
         .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+
+        /* ESTILO DAS CATEGORIAS (ABAS) */
+        .category-header {
+            background-color: #252525;
+            padding: 15px;
+            border-left: 5px solid var(--primary);
+            margin-top: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+        .category-header:hover { background-color: #333; }
+        .category-title { color: var(--primary); margin: 0; text-transform: uppercase; font-size: 1.2em; font-weight: bold; }
+        .toggle-icon { font-size: 1.2em; transition: transform 0.3s; color: var(--primary); }
+        .category-header.active .toggle-icon { transform: rotate(180deg); }
+        
+        /* Container dos itens (escondido por padrão) */
+        .items-container { display: none; padding-top: 15px; animation: fadeIn 0.3s; }
+        .items-container.open { display: block; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         
         /* ITEM DO MENU */
         .menu-item { background: var(--card); margin-bottom: 20px; border-radius: 12px; overflow: hidden; border: 1px solid #333; display: flex; flex-wrap: wrap; }
@@ -168,7 +191,7 @@
 
 <script>
     // --- DADOS DO NEGÓCIO ---
-    const SEU_WHATSAPP = "5521982846329"; // <--- SEU NÚMERO AQUI
+    const SEU_WHATSAPP = "5521999999999"; // <--- SEU NÚMERO AQUI
 
     const BAIRROS = [
         { id: 1, nome: "Parque Alegria", taxa: 3.00 },
@@ -178,8 +201,6 @@
     ];
 
     // --- LISTAS DE OPÇÕES E ADICIONAIS ---
-    
-    // Molhos (Agora completos)
     const MOLHOS_LISTA = [
         {nome:"Ketchup",preco:0}, {nome:"Mostarda",preco:0}, {nome:"Mostarda e Mel",preco:0}, 
         {nome:"Maionese",preco:0}, {nome:"Maionese da Casa",preco:0}, {nome:"Maionese Temperada",preco:0}, 
@@ -187,33 +208,20 @@
         {nome:"Molho Rosé da Casa",preco:0}, {nome:"Barbecue",preco:0}
     ];
 
-    // Adicionais Pagos (Hamburguer)
-    const ADICIONAIS_HAMBURGUER = [
-        {nome:"Ovo",preco:2}, {nome:"Presunto",preco:2}, {nome:"Queijo",preco:2}, 
-        {nome:"Calabresa",preco:2}, {nome:"Bacon",preco:3}, {nome:"Carne",preco:3}
-    ];
-
-    // Adicionais Hot Dog
-    const ADICIONAIS_HOTDOG = [
-        {nome:"Ovo de Codorna",preco:2}
-    ];
-
-    // Sabores de Frutas (Tradicional vs Especial)
+    const ADICIONAIS_HAMBURGUER = [{nome:"Ovo",preco:2}, {nome:"Presunto",preco:2}, {nome:"Queijo",preco:2}, {nome:"Calabresa",preco:2}, {nome:"Bacon",preco:3}, {nome:"Carne",preco:3}];
+    const ADICIONAIS_HOTDOG = [{nome:"Ovo de Codorna",preco:2}];
+    
     const FRUTAS_TRADICIONAL = [{nome:"Morango",preco:0}, {nome:"Manga",preco:0}, {nome:"Banana",preco:0}, {nome:"Abacate",preco:0}];
     const FRUTAS_ESPECIAL = [{nome:"Graviola",preco:0}, {nome:"Maracujá",preco:0}, {nome:"Cupuaçu",preco:0}];
     
-    const ACAI_OPCOES = [
-        {nome:"Granola",preco:0}, {nome:"Leite em pó",preco:0}, {nome:"Paçoca",preco:0}, {nome:"Amendoim",preco:0}, 
-        {nome:"Sucrilhos",preco:0}, {nome:"Chocobol",preco:0}, {nome:"Jujuba",preco:0}, {nome:"Leite Condensado",preco:0}
-    ];
+    const ACAI_OPCOES = [{nome:"Granola",preco:0}, {nome:"Leite em pó",preco:0}, {nome:"Paçoca",preco:0}, {nome:"Amendoim",preco:0}, {nome:"Sucrilhos",preco:0}, {nome:"Chocobol",preco:0}, {nome:"Jujuba",preco:0}, {nome:"Leite Condensado",preco:0}];
 
-    // Listas de Refrigerantes Específicas
     const REFRI_LATA = [{nome:"Coca-Cola",preco:0}, {nome:"Fanta Laranja",preco:0}, {nome:"Fanta Uva",preco:0}, {nome:"Sprite",preco:0}, {nome:"Guaraná Antarctica",preco:0}, {nome:"Soda",preco:0}];
     const REFRI_600 = [{nome:"Coca-Cola",preco:0}, {nome:"Fanta Laranja",preco:0}, {nome:"Fanta Uva",preco:0}, {nome:"Guaraná Antarctica",preco:0}];
     const REFRI_15 = [{nome:"Coca-Cola",preco:0}, {nome:"Fanta Laranja",preco:0}, {nome:"Guaraná Antarctica",preco:0}];
     const REFRI_2L = [{nome:"Coca-Cola",preco:0}, {nome:"Fanta Laranja",preco:0}, {nome:"Guaraná Antarctica",preco:0}];
 
-    // CARDÁPIO COMPLETO
+    // CARDÁPIO
     const cardapio = [
         { categoria: "Hambúrgueres Artesanais", itens: [
             { nome: "X-Tudo", desc: "Carne, calabresa, bacon, ovo, presunto, queijo, alface, molhos", preco: 17.00, img: "https://source.unsplash.com/150x150/?burger,bacon" },
@@ -229,8 +237,8 @@
              { nome: "X-Calabresa", desc: "Carne, calabresa, presunto, queijo", preco: 12.00, img: "https://source.unsplash.com/150x150/?burger" },
              { nome: "X-Burguer", desc: "Carne, ovo, 2 queijos, calabresa, alface", preco: 11.00, img: "https://source.unsplash.com/150x150/?hamburger" },
              { nome: "X-Egg", desc: "Carne, presunto, queijo, ovo, alface", preco: 10.00, img: "https://source.unsplash.com/150x150/?eggburger" },
-             { nome: "Hambúguer de Queijo", desc: "Carne, queijo, alface, batata palha", preco: 10.00, img: "https://source.unsplash.com/150x150/?simpleburger" },
-             { nome: "Hambúguer de Queijo c/ Presunto", desc: "Carne, queijo, presunto, alface", preco: 11.00, img: "https://source.unsplash.com/150x150/?cheeseburger" },
+             { nome: "Hamb. de Queijo", desc: "Carne, queijo, alface, batata palha", preco: 10.00, img: "https://source.unsplash.com/150x150/?simpleburger" },
+             { nome: "Hamb. Queijo c/ Presunto", desc: "Carne, queijo, presunto, alface", preco: 11.00, img: "https://source.unsplash.com/150x150/?cheeseburger" },
              { nome: "Hambúrguer de Ovo", desc: "Carne, ovo, alface, batata palha", preco: 9.00, img: "https://source.unsplash.com/150x150/?burger,egg" },
              { nome: "Misto Quente", desc: "Pão de forma, queijo e presunto", preco: 8.00, img: "https://source.unsplash.com/150x150/?sandwich,cheese" },
              { nome: "Mistão", desc: "3 pães, 2 queijos e 2 presuntos", preco: 10.00, img: "https://source.unsplash.com/150x150/?sandwich,ham" },
@@ -257,9 +265,9 @@
             { nome: "Açaí 150ml", desc: "Copo Mini", preco: 6.00, img: "https://source.unsplash.com/150x150/?dessert" }
         ]},
         { categoria: "Vitaminas e Sucos (Tradicionais)", itens: [
-            { nome: "Vitamina Tradicional 750ml", desc: "Morango, Manga e Banana", preco: 17.00, img: "https://source.unsplash.com/150x150/?smoothie,berry" },
-            { nome: "Vitamina Tradicional 500ml", desc: "Morango, Manga e Banana", preco: 14.00, img: "https://source.unsplash.com/150x150/?milkshake" },
-            { nome: "Vitamina Tradicional 400ml", desc: "Morango, Manga e Banana", preco: 12.00, img: "https://source.unsplash.com/150x150/?drink" },
+            { nome: "Vitamina Tradicional 750ml", desc: "Morango, Manga, Banana ou Abacate", preco: 17.00, img: "https://source.unsplash.com/150x150/?smoothie,berry" },
+            { nome: "Vitamina Tradicional 500ml", desc: "Morango, Manga, Banana ou Abacate", preco: 14.00, img: "https://source.unsplash.com/150x150/?milkshake" },
+            { nome: "Vitamina Tradicional 400ml", desc: "Morango, Manga, Banana ou Abacate", preco: 12.00, img: "https://source.unsplash.com/150x150/?drink" },
             { nome: "Suco Natural 750ml", desc: "Escolha o sabor", preco: 17.00, img: "https://source.unsplash.com/150x150/?juice,orange" },
             { nome: "Suco Natural 500ml", desc: "Escolha o sabor", preco: 13.00, img: "https://source.unsplash.com/150x150/?juice" },
             { nome: "Suco Natural 400ml", desc: "Escolha o sabor", preco: 11.00, img: "https://source.unsplash.com/150x150/?glass,juice" }
@@ -291,17 +299,29 @@
         const container = document.getElementById('menu-container');
         cardapio.forEach((categoria, catIndex) => {
             const divCat = document.createElement('div');
-            divCat.innerHTML = `<h2>${categoria.categoria}</h2>`;
+            
+            // Cabeçalho da Categoria (Clicável)
+            divCat.innerHTML = `
+                <div class="category-header" onclick="toggleCategory('cat-${catIndex}')">
+                    <h2 class="category-title">${categoria.categoria}</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div id="cat-${catIndex}" class="items-container">
+                    </div>
+            `;
+            
+            // Renderiza itens dentro do container escondido
+            let itemsHTML = "";
             categoria.itens.forEach((item, itemIndex) => {
                 let opcoesHTML = "";
                 
                 // LÓGICA DE EXIBIÇÃO DE OPÇÕES
                 if (categoria.categoria.includes("Hambúrgueres") || categoria.categoria.includes("Clássicos")) {
-                    opcoesHTML += gerarOpcoesHTML(MOLHOS_LISTA, "Molhos (Marque os desejados):");
+                    opcoesHTML += gerarOpcoesHTML(MOLHOS_LISTA, "Molhos e Maioneses (Marque os desejados):");
                     opcoesHTML += gerarOpcoesHTML(ADICIONAIS_HAMBURGUER, "Adicionais Pagos:");
                 } 
                 else if (categoria.categoria.includes("Hot Dog")) {
-                    opcoesHTML += gerarOpcoesHTML(MOLHOS_LISTA, "Molhos:");
+                    opcoesHTML += gerarOpcoesHTML(MOLHOS_LISTA, "Molhos e Maioneses:");
                     opcoesHTML += gerarOpcoesHTML(ADICIONAIS_HOTDOG, "Adicionais:");
                 }
                 else if (categoria.categoria.includes("Açaí")) {
@@ -327,7 +347,7 @@
                     opcoesHTML = gerarOpcoesHTML(REFRI_2L, "Escolha o Sabor:");
                 }
 
-                divCat.innerHTML += `
+                itemsHTML += `
                     <div class="menu-item">
                         <img src="${item.img}" alt="${item.nome}" class="menu-image">
                         <div class="item-content">
@@ -344,8 +364,22 @@
                     </div>
                 `;
             });
+            
+            // Injeta o HTML dos itens no container certo
+            // Nota: precisamos fazer isso depois de adicionar o divCat ao DOM ou manipular string
+            // Vamos manipular a string antes de dar append
             container.appendChild(divCat);
+            document.getElementById(`cat-${catIndex}`).innerHTML = itemsHTML;
         });
+    }
+    
+    // Função para abrir/fechar categoria
+    function toggleCategory(id) {
+        const content = document.getElementById(id);
+        const header = content.previousElementSibling; // Pega o cabeçalho clicado
+        
+        content.classList.toggle('open');
+        header.classList.toggle('active');
     }
 
     function gerarOpcoesHTML(lista, titulo) {
@@ -384,7 +418,7 @@
         const txt = btn.innerText;
         btn.innerText = "Adicionado!";
         btn.style.background = "#4CAF50";
-        setTimeout(() => { btn.innerText = txt; btn.style.background = ""; }, 1000);
+        setTimeout(() => { btn.innerText = "Adicionar"; btn.style.background = ""; }, 1000);
     }
 
     function atualizarBarra() {
