@@ -189,7 +189,7 @@
 
 <script>
     // --- DADOS DO NEGÓCIO ---
-    const SEU_WHATSAPP = "5521999999999"; // <--- SEU NÚMERO AQUI
+    const SEU_WHATSAPP = "5521982846329"; // <--- SEU NÚMERO AQUI
 
     const BAIRROS = [
         { id: 1, nome: "Parque Alegria", taxa: 3.00 },
@@ -222,7 +222,7 @@
 
     // CARDÁPIO
     const cardapio = [
-        { categoria: "Hambúrgueres Artesanais", itens: [
+        { categoria: "Hambúrgueres", itens: [
             { nome: "X-Tudo", desc: "Carne, calabresa, bacon, ovo, presunto, queijo, alface, molhos", preco: 17.00, img: "Xtudo.png" },
             { nome: "X-Picanha", desc: "Carne de picanha, calabresa, bacon, ovo, presunto, queijo, alface", preco: 16.00, img: "xpicanha.png" },
             { nome: "X-Bacon de Picanha", desc: "Carne de picanha, bacon, queijo, alface", preco: 18.00, img: "xbaconp.png" },
@@ -315,15 +315,15 @@
                 
                 // LÓGICA DE EXIBIÇÃO DE OPÇÕES
                 if (categoria.categoria.includes("Hambúrgueres") || categoria.categoria.includes("Clássicos")) {
-                    opcoesHTML += gerarOpcoesHTML(MOLHOS_LISTA, "Molhos e Maioneses (Marque os desejados):");
+                    opcoesHTML += gerarOpcoesHTML(MOLHOS_LISTA, "Molhos (Marque os desejados):");
                     opcoesHTML += gerarOpcoesHTML(ADICIONAIS_HAMBURGUER, "Adicionais Pagos:");
                 } 
                 else if (categoria.categoria.includes("Hot Dog")) {
-                    opcoesHTML += gerarOpcoesHTML(MOLHOS_LISTA, "Molhos e Maioneses:");
+                    opcoesHTML += gerarOpcoesHTML(MOLHOS_LISTA, "Molhos:");
                     opcoesHTML += gerarOpcoesHTML(ADICIONAIS_HOTDOG, "Adicionais:");
                 }
                 else if (categoria.categoria.includes("Açaí")) {
-                    opcoesHTML = gerarOpcoesHTML(ACAI_OPCOES, "Complementos Grátis:");
+                    opcoesHTML = gerarOpcoesHTML(ACAI_OPCOES, "Acompanhamentos:");
                 } 
                 else if (item.nome.includes("Suco Natural")) {
                     opcoesHTML = gerarOpcoesHTML(SABORES_SUCOS, "Escolha o Sabor:");
