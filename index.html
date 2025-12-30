@@ -170,7 +170,7 @@
 
 <script>
     // --- DADOS ---
-    const SEU_WHATSAPP = "5521999999999"; 
+    const SEU_WHATSAPP = "5521982846329"; 
 
     const BAIRROS = [
         { id: 1, nome: "Parque Alegria", taxa: 3.00 },
@@ -179,11 +179,12 @@
         { id: 4, nome: "São Sebastião", taxa: 5.00 }
     ];
 
-    const MOLHOS_GRATIS = [{nome:"Ketchup",preco:0}, {nome:"Mostarda",preco:0}, {nome:"Maionese da Casa",preco:0}, {nome:"Molho Especial",preco:0}, {nome:"Barbecue",preco:0}];
+    const MOLHOS = [{nome:"Ketchup",preco:0}, {nome:"Mostarda",preco:0}, {nome:"Mostarda e Mel",preco:0}, {nome:"Maionese",preco:0}, {nome:"Maionese da Casa",preco:0}, {nome:"Maionese Temperada",preco:0}, {nome:"Billy Jack",preco:0},  {nome:"Molho Especial da Casa",preco:0}, {nome:"Molho Rosé da Casa",preco:0}, {nome:"Barbecue",preco:0}];
     const ADICIONAIS_PAGOS = [{nome:"Ovo",preco:2}, {nome:"Presunto",preco:2}, {nome:"Queijo",preco:2}, {nome:"Calabresa",preco:2}, {nome:"Bacon",preco:3}, {nome:"Carne",preco:3}];
     const SABORES_FRUTAS = [{nome:"Morango",preco:0}, {nome:"Manga",preco:0}, {nome:"Maracujá",preco:0}, {nome:"Graviola",preco:0}, {nome:"Banana",preco:0}, {nome:"Abacate",preco:0}];
     const ACAI_OPCOES = [{nome:"Granola",preco:0}, {nome:"Leite em pó",preco:0}, {nome:"Paçoca",preco:0}, {nome:"Amendoim",preco:0}, {nome:"Sucrilhos",preco:0}, {nome:"Chocobol",preco:0}, {nome:"Jujuba",preco:0}, {nome:"Leite Condensado",preco:0}];
-    const REFRI_SABORES = [{nome:"Coca-Cola",preco:0}, {nome:"Guaraná",preco:0}, {nome:"Fanta",preco:0}];
+    const REFRI_SABORES = [{nome:"Coca-Cola",preco:0}, {nome:"Fanta Uva",preco:0}, {nome:"Fanta Laranja",preco:0}, {nome:"Sprite",preco:0}, {nome:"Guaraná Antarctica",preco:0}], {nome:"Soda",preco:0};
+    
 
     // Cardápio completo
     const cardapio = [
@@ -220,7 +221,7 @@
             { nome: "Anel de Cebola (12un)", desc: "Grande", preco: 10.00, img: "https://source.unsplash.com/150x150/?friedonion" },
             { nome: "Batata Maluca", desc: "Completa c/ bacon, calabresa, carne, cheddar", preco: 35.00, img: "https://source.unsplash.com/150x150/?fries,cheese,bacon" }
         ]},
-        { categoria: "Açaí (Selecione os grátis)", itens: [
+        { categoria: "Açaí ", itens: [
             { nome: "Açaí 750ml", desc: "Copo Gigante", preco: 20.00, img: "https://source.unsplash.com/150x150/?acai,bowl" },
             { nome: "Açaí 500ml", desc: "Copo Grande", preco: 16.00, img: "https://source.unsplash.com/150x150/?acai" },
             { nome: "Açaí 400ml", desc: "Copo Médio", preco: 14.00, img: "https://source.unsplash.com/150x150/?acai,cup" },
@@ -237,6 +238,8 @@
             { nome: "Suco Natural 400ml", desc: "Escolha o sabor abaixo", preco: 11.00, img: "https://source.unsplash.com/150x150/?glass,juice" }
         ]},
         { categoria: "Bebidas (Refrigerantes)", itens: [
+            { nome: "Guaravita", desc: "Gelada", preco: 2.50, img: "https://source.unsplash.com/150x150/?soda,can" },
+            { nome: "Guaraviton", desc: "Gelada", preco: 5.00, img: "https://source.unsplash.com/150x150/?soda,can" },
             { nome: "Refri Lata 350ml", desc: "Gelada", preco: 6.00, img: "https://source.unsplash.com/150x150/?soda,can" },
             { nome: "Refri 600ml", desc: "Gelada", preco: 8.00, img: "https://source.unsplash.com/150x150/?soda,bottle" },
             { nome: "Refri 1,5 Litros", desc: "Família", preco: 11.00, img: "https://source.unsplash.com/150x150/?coke,bottle" },
@@ -263,7 +266,7 @@
                     opcoesHTML += gerarOpcoesHTML(MOLHOS_GRATIS, "Molhos Grátis:");
                     opcoesHTML += gerarOpcoesHTML(ADICIONAIS_PAGOS, "Turbine seu Lanche (Adicionais):");
                 } else if (categoria.categoria.includes("Açaí")) {
-                    opcoesHTML = gerarOpcoesHTML(ACAI_OPCOES, "Complementos Grátis:");
+                    opcoesHTML = gerarOpcoesHTML(ACAI_OPCOES, "Acompanhamentos:");
                 } else if (categoria.categoria.includes("Vitaminas") || categoria.categoria.includes("Sucos")) {
                     opcoesHTML = gerarOpcoesHTML(SABORES_FRUTAS, "Selecione o Sabor:");
                 } else if (categoria.categoria.includes("Bebidas") && item.nome.includes("Refri")) {
