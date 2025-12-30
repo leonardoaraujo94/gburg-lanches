@@ -229,8 +229,8 @@
              { nome: "X-Calabresa", desc: "Carne, calabresa, presunto, queijo", preco: 12.00, img: "https://source.unsplash.com/150x150/?burger" },
              { nome: "X-Burguer", desc: "Carne, ovo, 2 queijos, calabresa, alface", preco: 11.00, img: "https://source.unsplash.com/150x150/?hamburger" },
              { nome: "X-Egg", desc: "Carne, presunto, queijo, ovo, alface", preco: 10.00, img: "https://source.unsplash.com/150x150/?eggburger" },
-             { nome: "Hamb. de Queijo", desc: "Carne, queijo, alface, batata palha", preco: 10.00, img: "https://source.unsplash.com/150x150/?simpleburger" },
-             { nome: "Hamb. Queijo c/ Presunto", desc: "Carne, queijo, presunto, alface", preco: 11.00, img: "https://source.unsplash.com/150x150/?cheeseburger" },
+             { nome: "Hambúguer de Queijo", desc: "Carne, queijo, alface, batata palha", preco: 10.00, img: "https://source.unsplash.com/150x150/?simpleburger" },
+             { nome: "Hambúguer de Queijo c/ Presunto", desc: "Carne, queijo, presunto, alface", preco: 11.00, img: "https://source.unsplash.com/150x150/?cheeseburger" },
              { nome: "Hambúrguer de Ovo", desc: "Carne, ovo, alface, batata palha", preco: 9.00, img: "https://source.unsplash.com/150x150/?burger,egg" },
              { nome: "Misto Quente", desc: "Pão de forma, queijo e presunto", preco: 8.00, img: "https://source.unsplash.com/150x150/?sandwich,cheese" },
              { nome: "Mistão", desc: "3 pães, 2 queijos e 2 presuntos", preco: 10.00, img: "https://source.unsplash.com/150x150/?sandwich,ham" },
@@ -257,9 +257,9 @@
             { nome: "Açaí 150ml", desc: "Copo Mini", preco: 6.00, img: "https://source.unsplash.com/150x150/?dessert" }
         ]},
         { categoria: "Vitaminas e Sucos (Tradicionais)", itens: [
-            { nome: "Vitamina Tradicional 750ml", desc: "Morango, Manga, Banana ou Abacate", preco: 17.00, img: "https://source.unsplash.com/150x150/?smoothie,berry" },
-            { nome: "Vitamina Tradicional 500ml", desc: "Morango, Manga, Banana ou Abacate", preco: 14.00, img: "https://source.unsplash.com/150x150/?milkshake" },
-            { nome: "Vitamina Tradicional 400ml", desc: "Morango, Manga, Banana ou Abacate", preco: 12.00, img: "https://source.unsplash.com/150x150/?drink" },
+            { nome: "Vitamina Tradicional 750ml", desc: "Morango, Manga e Banana", preco: 17.00, img: "https://source.unsplash.com/150x150/?smoothie,berry" },
+            { nome: "Vitamina Tradicional 500ml", desc: "Morango, Manga e Banana", preco: 14.00, img: "https://source.unsplash.com/150x150/?milkshake" },
+            { nome: "Vitamina Tradicional 400ml", desc: "Morango, Manga e Banana", preco: 12.00, img: "https://source.unsplash.com/150x150/?drink" },
             { nome: "Suco Natural 750ml", desc: "Escolha o sabor", preco: 17.00, img: "https://source.unsplash.com/150x150/?juice,orange" },
             { nome: "Suco Natural 500ml", desc: "Escolha o sabor", preco: 13.00, img: "https://source.unsplash.com/150x150/?juice" },
             { nome: "Suco Natural 400ml", desc: "Escolha o sabor", preco: 11.00, img: "https://source.unsplash.com/150x150/?glass,juice" }
@@ -297,11 +297,11 @@
                 
                 // LÓGICA DE EXIBIÇÃO DE OPÇÕES
                 if (categoria.categoria.includes("Hambúrgueres") || categoria.categoria.includes("Clássicos")) {
-                    opcoesHTML += gerarOpcoesHTML(MOLHOS_LISTA, "Molhos e Maioneses (Marque os desejados):");
+                    opcoesHTML += gerarOpcoesHTML(MOLHOS_LISTA, "Molhos (Marque os desejados):");
                     opcoesHTML += gerarOpcoesHTML(ADICIONAIS_HAMBURGUER, "Adicionais Pagos:");
                 } 
                 else if (categoria.categoria.includes("Hot Dog")) {
-                    opcoesHTML += gerarOpcoesHTML(MOLHOS_LISTA, "Molhos e Maioneses:");
+                    opcoesHTML += gerarOpcoesHTML(MOLHOS_LISTA, "Molhos:");
                     opcoesHTML += gerarOpcoesHTML(ADICIONAIS_HOTDOG, "Adicionais:");
                 }
                 else if (categoria.categoria.includes("Açaí")) {
