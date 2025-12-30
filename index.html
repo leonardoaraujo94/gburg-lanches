@@ -47,13 +47,12 @@
         .cart-total { font-size: 1.2em; font-weight: bold; }
         .cart-bar button { background: white; color: var(--primary); border: none; padding: 12px 25px; border-radius: 30px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        /* ESTILOS DOS MODAIS (CARRINHO E CHECKOUT) */
+        /* MODAIS */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; display: none; justify-content: center; align-items: center; }
         .modal-content { background: #1e1e1e; padding: 25px; border-radius: 15px; width: 95%; max-width: 500px; max-height: 90vh; overflow-y: auto; border: 1px solid #FF8C00; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 15px; }
         .modal-title { font-size: 1.4em; color: var(--primary); font-weight: bold; }
         
-        /* Lista do Carrinho */
         .cart-list { list-style: none; padding: 0; margin: 0; }
         .cart-item { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #333; padding: 15px 0; }
         .cart-item-info { flex: 1; padding-right: 10px; }
@@ -62,7 +61,6 @@
         .cart-item-price { color: var(--primary); font-weight: bold; margin-top: 5px; display: block; }
         .btn-remove { background: transparent; border: 1px solid var(--danger); color: var(--danger); padding: 5px 10px; border-radius: 8px; cursor: pointer; font-size: 0.8em; }
 
-        /* Formulário de Checkout */
         .form-group { margin-bottom: 15px; }
         .form-label { display: block; margin-bottom: 5px; color: #ccc; font-size: 0.9em; }
         .form-input, .form-select, .form-textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #444; background: var(--input-bg); color: white; font-family: inherit; box-sizing: border-box; }
@@ -169,8 +167,8 @@
 </div>
 
 <script>
-    // --- DADOS ---
-    const SEU_WHATSAPP = "5521982846329"; 
+    // --- DADOS DO NEGÓCIO ---
+    const SEU_WHATSAPP = "5521982846329"; // <--- SEU NÚMERO AQUI
 
     const BAIRROS = [
         { id: 1, nome: "Parque Alegria", taxa: 3.00 },
@@ -179,14 +177,43 @@
         { id: 4, nome: "São Sebastião", taxa: 5.00 }
     ];
 
-    const MOLHOS = [{nome:"Ketchup",preco:0}, {nome:"Mostarda",preco:0}, {nome:"Mostarda e Mel",preco:0}, {nome:"Maionese",preco:0}, {nome:"Maionese da Casa",preco:0}, {nome:"Maionese Temperada",preco:0}, {nome:"Billy Jack",preco:0},  {nome:"Molho Especial da Casa",preco:0}, {nome:"Molho Rosé da Casa",preco:0}, {nome:"Barbecue",preco:0}];
-    const ADICIONAIS_PAGOS = [{nome:"Ovo",preco:2}, {nome:"Presunto",preco:2}, {nome:"Queijo",preco:2}, {nome:"Calabresa",preco:2}, {nome:"Bacon",preco:3}, {nome:"Carne",preco:3}];
-    const SABORES_FRUTAS = [{nome:"Morango",preco:0}, {nome:"Manga",preco:0}, {nome:"Maracujá",preco:0}, {nome:"Graviola",preco:0}, {nome:"Banana",preco:0}, {nome:"Abacate",preco:0}];
-    const ACAI_OPCOES = [{nome:"Granola",preco:0}, {nome:"Leite em pó",preco:0}, {nome:"Paçoca",preco:0}, {nome:"Amendoim",preco:0}, {nome:"Sucrilhos",preco:0}, {nome:"Chocobol",preco:0}, {nome:"Jujuba",preco:0}, {nome:"Leite Condensado",preco:0}];
-    const REFRI_SABORES = [{nome:"Coca-Cola",preco:0}, {nome:"Fanta Uva",preco:0}, {nome:"Fanta Laranja",preco:0}, {nome:"Sprite",preco:0}, {nome:"Guaraná Antarctica",preco:0}], {nome:"Soda",preco:0};
+    // --- LISTAS DE OPÇÕES E ADICIONAIS ---
     
+    // Molhos (Agora completos)
+    const MOLHOS_LISTA = [
+        {nome:"Ketchup",preco:0}, {nome:"Mostarda",preco:0}, {nome:"Mostarda e Mel",preco:0}, 
+        {nome:"Maionese",preco:0}, {nome:"Maionese da Casa",preco:0}, {nome:"Maionese Temperada",preco:0}, 
+        {nome:"Billy Jack",preco:0}, {nome:"Molho Especial da Casa",preco:0}, 
+        {nome:"Molho Rosé da Casa",preco:0}, {nome:"Barbecue",preco:0}
+    ];
 
-    // Cardápio completo
+    // Adicionais Pagos (Hamburguer)
+    const ADICIONAIS_HAMBURGUER = [
+        {nome:"Ovo",preco:2}, {nome:"Presunto",preco:2}, {nome:"Queijo",preco:2}, 
+        {nome:"Calabresa",preco:2}, {nome:"Bacon",preco:3}, {nome:"Carne",preco:3}
+    ];
+
+    // Adicionais Hot Dog
+    const ADICIONAIS_HOTDOG = [
+        {nome:"Ovo de Codorna",preco:2}
+    ];
+
+    // Sabores de Frutas (Tradicional vs Especial)
+    const FRUTAS_TRADICIONAL = [{nome:"Morango",preco:0}, {nome:"Manga",preco:0}, {nome:"Banana",preco:0}, {nome:"Abacate",preco:0}];
+    const FRUTAS_ESPECIAL = [{nome:"Graviola",preco:0}, {nome:"Maracujá",preco:0}, {nome:"Cupuaçu",preco:0}];
+    
+    const ACAI_OPCOES = [
+        {nome:"Granola",preco:0}, {nome:"Leite em pó",preco:0}, {nome:"Paçoca",preco:0}, {nome:"Amendoim",preco:0}, 
+        {nome:"Sucrilhos",preco:0}, {nome:"Chocobol",preco:0}, {nome:"Jujuba",preco:0}, {nome:"Leite Condensado",preco:0}
+    ];
+
+    // Listas de Refrigerantes Específicas
+    const REFRI_LATA = [{nome:"Coca-Cola",preco:0}, {nome:"Fanta Laranja",preco:0}, {nome:"Fanta Uva",preco:0}, {nome:"Sprite",preco:0}, {nome:"Guaraná Antarctica",preco:0}, {nome:"Soda",preco:0}];
+    const REFRI_600 = [{nome:"Coca-Cola",preco:0}, {nome:"Fanta Laranja",preco:0}, {nome:"Fanta Uva",preco:0}, {nome:"Guaraná Antarctica",preco:0}];
+    const REFRI_15 = [{nome:"Coca-Cola",preco:0}, {nome:"Fanta Laranja",preco:0}, {nome:"Guaraná Antarctica",preco:0}];
+    const REFRI_2L = [{nome:"Coca-Cola",preco:0}, {nome:"Fanta Laranja",preco:0}, {nome:"Guaraná Antarctica",preco:0}];
+
+    // CARDÁPIO COMPLETO
     const cardapio = [
         { categoria: "Hambúrgueres Artesanais", itens: [
             { nome: "X-Tudo", desc: "Carne, calabresa, bacon, ovo, presunto, queijo, alface, molhos", preco: 17.00, img: "https://source.unsplash.com/150x150/?burger,bacon" },
@@ -221,7 +248,7 @@
             { nome: "Anel de Cebola (12un)", desc: "Grande", preco: 10.00, img: "https://source.unsplash.com/150x150/?friedonion" },
             { nome: "Batata Maluca", desc: "Completa c/ bacon, calabresa, carne, cheddar", preco: 35.00, img: "https://source.unsplash.com/150x150/?fries,cheese,bacon" }
         ]},
-        { categoria: "Açaí ", itens: [
+        { categoria: "Açaí", itens: [
             { nome: "Açaí 750ml", desc: "Copo Gigante", preco: 20.00, img: "https://source.unsplash.com/150x150/?acai,bowl" },
             { nome: "Açaí 500ml", desc: "Copo Grande", preco: 16.00, img: "https://source.unsplash.com/150x150/?acai" },
             { nome: "Açaí 400ml", desc: "Copo Médio", preco: 14.00, img: "https://source.unsplash.com/150x150/?acai,cup" },
@@ -229,21 +256,26 @@
             { nome: "Açaí 200ml", desc: "Copo Pequeno", preco: 8.00, img: "https://source.unsplash.com/150x150/?icecream" },
             { nome: "Açaí 150ml", desc: "Copo Mini", preco: 6.00, img: "https://source.unsplash.com/150x150/?dessert" }
         ]},
-        { categoria: "Vitaminas e Sucos", itens: [
-            { nome: "Vitamina 750ml", desc: "Escolha o sabor abaixo", preco: 17.00, img: "https://source.unsplash.com/150x150/?smoothie,berry" },
-            { nome: "Vitamina 500ml", desc: "Escolha o sabor abaixo", preco: 14.00, img: "https://source.unsplash.com/150x150/?milkshake" },
-            { nome: "Vitamina 400ml", desc: "Escolha o sabor abaixo", preco: 12.00, img: "https://source.unsplash.com/150x150/?drink" },
-            { nome: "Suco Natural 750ml", desc: "Escolha o sabor abaixo", preco: 17.00, img: "https://source.unsplash.com/150x150/?juice,orange" },
-            { nome: "Suco Natural 500ml", desc: "Escolha o sabor abaixo", preco: 13.00, img: "https://source.unsplash.com/150x150/?juice" },
-            { nome: "Suco Natural 400ml", desc: "Escolha o sabor abaixo", preco: 11.00, img: "https://source.unsplash.com/150x150/?glass,juice" }
+        { categoria: "Vitaminas e Sucos (Tradicionais)", itens: [
+            { nome: "Vitamina Tradicional 750ml", desc: "Morango, Manga, Banana ou Abacate", preco: 17.00, img: "https://source.unsplash.com/150x150/?smoothie,berry" },
+            { nome: "Vitamina Tradicional 500ml", desc: "Morango, Manga, Banana ou Abacate", preco: 14.00, img: "https://source.unsplash.com/150x150/?milkshake" },
+            { nome: "Vitamina Tradicional 400ml", desc: "Morango, Manga, Banana ou Abacate", preco: 12.00, img: "https://source.unsplash.com/150x150/?drink" },
+            { nome: "Suco Natural 750ml", desc: "Escolha o sabor", preco: 17.00, img: "https://source.unsplash.com/150x150/?juice,orange" },
+            { nome: "Suco Natural 500ml", desc: "Escolha o sabor", preco: 13.00, img: "https://source.unsplash.com/150x150/?juice" },
+            { nome: "Suco Natural 400ml", desc: "Escolha o sabor", preco: 11.00, img: "https://source.unsplash.com/150x150/?glass,juice" }
         ]},
-        { categoria: "Bebidas (Refrigerantes)", itens: [
-            { nome: "Guaravita", desc: "Gelada", preco: 2.50, img: "https://source.unsplash.com/150x150/?soda,can" },
-            { nome: "Guaraviton", desc: "Gelada", preco: 5.00, img: "https://source.unsplash.com/150x150/?soda,can" },
-            { nome: "Refri Lata 350ml", desc: "Gelada", preco: 6.00, img: "https://source.unsplash.com/150x150/?soda,can" },
-            { nome: "Refri 600ml", desc: "Gelada", preco: 8.00, img: "https://source.unsplash.com/150x150/?soda,bottle" },
-            { nome: "Refri 1,5 Litros", desc: "Família", preco: 11.00, img: "https://source.unsplash.com/150x150/?coke,bottle" },
-            { nome: "Refri 2 Litros", desc: "Família", preco: 14.00, img: "https://source.unsplash.com/150x150/?soda,party" }
+        { categoria: "Vitaminas Especiais (Graviola/Maracujá/Cupuaçu)", itens: [
+            { nome: "Vitamina Especial 750ml", desc: "Graviola, Maracujá ou Cupuaçu", preco: 18.00, img: "https://source.unsplash.com/150x150/?passionfruit,drink" },
+            { nome: "Vitamina Especial 500ml", desc: "Graviola, Maracujá ou Cupuaçu", preco: 16.00, img: "https://source.unsplash.com/150x150/?tropical,smoothie" },
+            { nome: "Vitamina Especial 400ml", desc: "Graviola, Maracujá ou Cupuaçu", preco: 14.00, img: "https://source.unsplash.com/150x150/?exotic,fruit" }
+        ]},
+        { categoria: "Bebidas", itens: [
+            { nome: "Guaravita", desc: "Copo", preco: 2.50, img: "https://source.unsplash.com/150x150/?guarana,cup" },
+            { nome: "Guaraviton", desc: "Garrafa", preco: 5.00, img: "https://source.unsplash.com/150x150/?drink,bottle" },
+            { nome: "Refri Lata 350ml", desc: "Selecione o sabor", preco: 6.00, img: "https://source.unsplash.com/150x150/?soda,can" },
+            { nome: "Refri 600ml", desc: "Selecione o sabor", preco: 8.00, img: "https://source.unsplash.com/150x150/?soda,bottle" },
+            { nome: "Refri 1,5 Litros", desc: "Selecione o sabor", preco: 11.00, img: "https://source.unsplash.com/150x150/?coke,bottle" },
+            { nome: "Refri 2 Litros", desc: "Selecione o sabor", preco: 14.00, img: "https://source.unsplash.com/150x150/?soda,party" }
         ]}
     ];
 
@@ -262,15 +294,37 @@
             divCat.innerHTML = `<h2>${categoria.categoria}</h2>`;
             categoria.itens.forEach((item, itemIndex) => {
                 let opcoesHTML = "";
+                
+                // LÓGICA DE EXIBIÇÃO DE OPÇÕES
                 if (categoria.categoria.includes("Hambúrgueres") || categoria.categoria.includes("Clássicos")) {
-                    opcoesHTML += gerarOpcoesHTML(MOLHOS_GRATIS, "Molhos Grátis:");
-                    opcoesHTML += gerarOpcoesHTML(ADICIONAIS_PAGOS, "Turbine seu Lanche (Adicionais):");
-                } else if (categoria.categoria.includes("Açaí")) {
-                    opcoesHTML = gerarOpcoesHTML(ACAI_OPCOES, "Acompanhamentos:");
-                } else if (categoria.categoria.includes("Vitaminas") || categoria.categoria.includes("Sucos")) {
-                    opcoesHTML = gerarOpcoesHTML(SABORES_FRUTAS, "Selecione o Sabor:");
-                } else if (categoria.categoria.includes("Bebidas") && item.nome.includes("Refri")) {
-                    opcoesHTML = gerarOpcoesHTML(REFRI_SABORES, "Escolha o sabor:");
+                    opcoesHTML += gerarOpcoesHTML(MOLHOS_LISTA, "Molhos e Maioneses (Marque os desejados):");
+                    opcoesHTML += gerarOpcoesHTML(ADICIONAIS_HAMBURGUER, "Adicionais Pagos:");
+                } 
+                else if (categoria.categoria.includes("Hot Dog")) {
+                    opcoesHTML += gerarOpcoesHTML(MOLHOS_LISTA, "Molhos e Maioneses:");
+                    opcoesHTML += gerarOpcoesHTML(ADICIONAIS_HOTDOG, "Adicionais:");
+                }
+                else if (categoria.categoria.includes("Açaí")) {
+                    opcoesHTML = gerarOpcoesHTML(ACAI_OPCOES, "Complementos Grátis:");
+                } 
+                else if (item.nome.includes("Vitamina Tradicional") || item.nome.includes("Suco Natural")) {
+                    opcoesHTML = gerarOpcoesHTML(FRUTAS_TRADICIONAL, "Escolha o Sabor:");
+                }
+                else if (item.nome.includes("Vitamina Especial")) {
+                    opcoesHTML = gerarOpcoesHTML(FRUTAS_ESPECIAL, "Escolha o Sabor:");
+                }
+                // Lógica Específica para Refrigerantes
+                else if (item.nome.includes("Refri Lata")) {
+                    opcoesHTML = gerarOpcoesHTML(REFRI_LATA, "Escolha o Sabor:");
+                }
+                else if (item.nome.includes("Refri 600ml")) {
+                    opcoesHTML = gerarOpcoesHTML(REFRI_600, "Escolha o Sabor:");
+                }
+                else if (item.nome.includes("Refri 1,5 Litros")) {
+                    opcoesHTML = gerarOpcoesHTML(REFRI_15, "Escolha o Sabor:");
+                }
+                else if (item.nome.includes("Refri 2 Litros")) {
+                    opcoesHTML = gerarOpcoesHTML(REFRI_2L, "Escolha o Sabor:");
                 }
 
                 divCat.innerHTML += `
@@ -348,7 +402,6 @@
 
         carrinho.forEach((item, idx) => {
             total += item.precoFinal;
-            // Formata as opções para exibir bonitinho no modal
             let descOpcoes = item.opcoes.length > 0 ? `<br><small>+ ${item.opcoes.join(', ')}</small>` : '';
             
             lista.innerHTML += `
@@ -394,7 +447,7 @@
 
     function fecharCheckout() {
         document.getElementById('checkout-modal').style.display = 'none';
-        abrirModalCarrinho(); // Volta pro carrinho
+        abrirModalCarrinho(); 
     }
 
     function atualizarTotalComTaxa() {
@@ -424,18 +477,16 @@
         const subtotal = carrinho.reduce((acc, item) => acc + item.precoFinal, 0);
         const total = subtotal + bairro.taxa;
 
-        // MONTAGEM DA MENSAGEM (COM QUEBRA DE LINHA PARA OPÇÕES)
         let msg = `*NOVO PEDIDO - G BURG'S*\n------------------------------\n`;
         
         carrinho.forEach(item => {
             msg += `▪️ *${item.nome}* (R$ ${item.precoFinal.toFixed(2)})\n`;
             if (item.opcoes.length > 0) {
-                // Aqui cria as linhas separadas para cada molho/adicional
                 item.opcoes.forEach(op => {
                     msg += `   + ${op}\n`;
                 });
             }
-            msg += `\n`; // Linha em branco entre itens
+            msg += `\n`; 
         });
 
         msg += `------------------------------\n`;
